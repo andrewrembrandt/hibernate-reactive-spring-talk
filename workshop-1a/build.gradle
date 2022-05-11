@@ -1,0 +1,85 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.7'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "org.owasp.dependencycheck" version '7.1.0.1'
+    id 'java'
+    id "com.github.ben-manes.versions" version '0.42.0'
+}
+
+group = 'ch.aaap.hibreactiveex'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    maven { url 'https://repo.spring.io/snapshot' }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    implementation 'io.smallrye.reactive:mutiny-reactor:1.4.0'
+    implementation 'org.hibernate.reactive:hibernate-reactive-core:1.1.4.Final'
+    implementation 'io.vertx:vertx-pg-client:4.3.0'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    runtimeOnly 'io.r2dbc:r2dbc-postgresql'
+
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    implementation 'org.projectlombok:lombok:1.18.24'
+    implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.6.8'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    testImplementation 'io.projectreactor:reactor-test:3.4.18'
+    testImplementation 'pl.rzrz:assertj-reactor:1.0.8'
+
+    testImplementation 'org.testcontainers:r2dbc:1.17.1'
+
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testRuntimeOnly "org.testcontainers:testcontainers:1.17.1"
+    testRuntimeOnly "org.testcontainers:junit-jupiter:1.17.1"
+    testRuntimeOnly 'org.testcontainers:postgresql:1.17.1'
+
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+
+task startPostgres(type: Exec) {
+    commandLine './postgresql-start.sh'
+}
+
+bootRun.dependsOn startPostgres
+
+dependencyCheck {
+    suppressionFile './resources/cve-suppression.xml'
+}
+
+check.dependsOn dependencyCheckAnalyze
