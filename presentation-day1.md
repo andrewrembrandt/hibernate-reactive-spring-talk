@@ -2,7 +2,7 @@
 theme: robot-lung.css
 highlightTheme: foundation
 ---
-### Hibernate Reactive & Spring WebFlux
+### Hibernate Reactive & Spring WebFlux (Day 1)
 
 Andrew Rembrandt,<br>andrew@3ap.ch
 
@@ -49,21 +49,23 @@ Andrew Rembrandt,<br>andrew@3ap.ch
 * Reactive choice in Quarkus (Vert.x can easily be adapted)
 ---
 ### Mutiny & Spring
-* Two approaches
-  * Business 
+* Two approaches:
+  * Use mutiny helper methods to convert to Mono/Flux
+```java
+<myUni>.convert().with(toMono())
+```
   * Wholesale with a reactive adapter:
 ```java
 public class MutinyAdapter {
     private final ReactiveAdapterRegistry registry;
-
     @PostConstruct
     public void registerAdapters(){
         registry.registerReactiveType(
-            ReactiveTypeDescriptor.singleOptionalValue(Uni.class, ()-> Uni.createFrom().nothing()),
+            ReactiveTypeDescriptor.singleOptionalValue(Uni.class,
+            ()-> Uni.createFrom().nothing()),
             uni ->((Uni<?>)uni).convert().toPublisher(),
             publisher ->  Uni.createFrom().publisher(publisher)
         );
-
         registry.registerReactiveType(
             ReactiveTypeDescriptor.multiValue(Multi.class, ()-> Multi.createFrom().empty()),
             multi -> (Multi<?>) multi,
@@ -86,7 +88,7 @@ public class MutinyAdapter {
 ---
 ### Does Hibernate Reactive / Mutiny have X?
 * No derived query methods OOB
-  * Spring Data's logic can be reused:
+  * Spring Data's logic can be reused with some 'smarts':
     * [github.../spring-data-commons/.../repository/query/parser/](https://github.com/spring-projects/spring-data-commons/tree/main/src/main/java/org/springframework/data/repository/query/parser)
     * [github.../spring-data-jpa/.../repository/query/JpaQueryCreator.java](https://github.com/spring-projects/spring-data-jpa/blob/main/spring-data-jpa/src/main/java/org/springframework/data/jpa/repository/query/JpaQueryCreator.java)
 
