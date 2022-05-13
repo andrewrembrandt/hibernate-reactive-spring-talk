@@ -16,6 +16,11 @@ Your task is to convert this to Hibernate Reactive & then apply an async operati
   * Uni to Mono conversion `<my-uni>.convert().with(toMono())`
 
 #### Workshop 1b
+* There are 3 TODOs in the code in the ./workshop-1a/ folder, complete them in order and write / run the tests 
+  to confirm they work as required.
+  * Uni to Mono conversion `<my-uni>.convert().with(toMono())`
+
+#### Workshop 1b
 Coming tomorrow
 
 ### Running (once implemented)
