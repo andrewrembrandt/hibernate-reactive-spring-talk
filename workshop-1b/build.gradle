@@ -82,4 +82,3 @@ dependencyCheck {
     suppressionFile './resources/cve-suppression.xml'
 }
 
-check.dependsOn dependencyCheckAnalyze

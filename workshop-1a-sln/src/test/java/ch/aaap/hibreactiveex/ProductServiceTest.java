@@ -3,6 +3,7 @@ package ch.aaap.hibreactiveex;
 import ch.aaap.hibreactiveex.model.Product;
 import ch.aaap.hibreactiveex.model.ProductDataDTO;
 import ch.aaap.hibreactiveex.model.ProductMapper;
+import ch.aaap.hibreactiveex.model.ProductMapperImpl;
 import ch.aaap.hibreactiveex.repository.ProductRepository;
 import ch.aaap.hibreactiveex.service.ProductService;
 import lombok.val;
@@ -12,6 +13,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
@@ -20,9 +24,10 @@ import java.time.LocalDate;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@Import({ProductService.class, ProductMapperImpl.class})
 public class ProductServiceTest {
-  @Mock
+  @MockBean
   ProductRepository productRepo;
   @Autowired
   ProductService productService;

@@ -2,7 +2,7 @@
 theme: robot-lung.css
 highlightTheme: foundation
 ---
-### Hibernate Reactive & Spring WebFlux (Day 1)
+### Hibernate Reactive & Spring WebFlux
 
 Andrew Rembrandt,<br>andrew@3ap.ch
 

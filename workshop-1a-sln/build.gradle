@@ -67,10 +67,13 @@ dependencies {
 test {
     useJUnitPlatform()
     testLogging {
-        events "passed", "skipped", "failed"
+        events "skipped", "failed"
+        exceptionFormat "full"
+        showCauses true
+        showStackTraces true    
+        showStandardStreams = true
     }
 }
-
 
 task startPostgres(type: Exec) {
     commandLine './postgresql-start.sh'
@@ -82,4 +85,3 @@ dependencyCheck {
     suppressionFile './resources/cve-suppression.xml'
 }
 
-check.dependsOn dependencyCheckAnalyze
