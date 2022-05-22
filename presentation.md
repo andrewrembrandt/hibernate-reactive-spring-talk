@@ -109,5 +109,5 @@ https://smallrye.io/smallrye-mutiny/guides/context-passing
   * Convert it to Hibernate Reactive
     * Dependencies are already included
 ---
-### Open your IDEs...
+### Open your IDE...
 * https://github.com/andrewrembrandt/hibernate-reactive-spring-talk
